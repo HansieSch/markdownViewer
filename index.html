@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-za">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Replace style sheet with your own. -->
+        <link rel="stylesheet" type="text/css" href="github.css">
+
+        <title>Live Markdown Previewer</title>
+
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <textarea id="text-input"
+                  rows="20"
+                  cols="80"
+                  placeholder="Type Markdown here."></textarea>
+
+        <div id="preview"> </div>
+
+        <script src="node_modules/markdown/lib/markdown.js"></script>
+        
+        <script>
+            function Editor(input, preview) {
+                var input = document.querySelector(input),
+                    preview = document.querySelector(preview);
+
+                // Allows user to indent markdown code with out losing focus
+                // when tab is pressed
+                if (input.tagName === "TEXTAREA") {
+                    input.onkeydown = function (event) {
+                        if (event.code === "Tab") {
+                            event.preventDefault();
+                            event.srcElement.value += "    ";
+                        }
+                    };
+                }
+
+                preview.innerHTML = markdown.toHTML(input.value);
+    
+                input.oninput = function (event) {
+                    preview.innerHTML = markdown.toHTML(input.value);
+                };
+            }
+    
+            Editor("#text-input", "#preview");
+        </script>
+    </body>
+</html>
